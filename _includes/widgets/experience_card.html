@@ -60,16 +60,32 @@
 
                     {% if site.data.profile.service %}
                     <div class="col-md-6">
-                        <div class="mx-2 my-1">
-                            <h6>Academic Activities</h6>
-                            <ul class="list small pl-3 mb-1">
-                                {% for item in site.data.profile.service %}
-                                <li>{{ item.name }}</li>
+                      <div class="mx-2 my-1">
+                        <h6>Academic Activities</h6>
+                        <ul class="list-unstyled mb-1">
+                          {% for item in site.data.profile.service %}
+                          <li class="media mb-2">
+                            <div class="media-body">
+                              <p class="my-0">
+                                <strong>{{ item.org }}</strong>
+                                {% if item.role %}（{{ item.role }}）{% endif %}
+                                {% if item.date %}<em class="float-right">{{ item.date }}</em>{% endif %}
+                              </p>
+                              {% if item.bullets %}
+                              <ul class="list small pl-3 mb-1">
+                                {% for b in item.bullets %}
+                                <li>{{ b | markdownify | replace: '<p>', '' | replace: '</p>', '' }}</li>
                                 {% endfor %}
-                            </ul>
-                        </div>
+                              </ul>
+                              {% endif %}
+                            </div>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
                     </div>
                     {% endif %}
+
                     
                 </div>
 
