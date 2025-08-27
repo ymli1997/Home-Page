@@ -4,7 +4,9 @@ navbar_name: "Yamei Li's Home Page"
 
 
 positions:
-  - '<span class="no-break"><img src="assets/images/badges/zzu.png" alt="Zhengzhou University" class="inline-badge"/></span> Associate Professor, Zhengzhou University'
+  - >-
+    <span class="no-break"><img src="assets/images/badges/zzu.png" alt="Zhengzhou University" class="inline-badge"/></span> Associate Professor, Zhengzhou University
+
 
 email: "yameili@email.swu.edu.cn"
 # gscholar: SSaBaioAAAAJ
@@ -22,6 +24,7 @@ WhatsApp_qrcode: assets/images/etc/whatsapp.jpg
 
 short_bio: |-
   Yamei Li is an Assistant Professor at the Henan Key Laboratory of Brain Science and Brain-Computer Interface Technology, Zhengzhou University, China. She received her Ph.D. in Engineering from Southwest University, China, in June 2025. From November 2023 to January 2025, she was a visiting Ph.D. student at the Interdisciplinary Sleep Medicine Center, Charité – Universitätsmedizin Berlin, Germany. She obtained her M.S. degree from Zhengzhou University in June 2021. Her research lies at the intersection of computer science and biomedical engineering, with a primary focus on the intelligent analysis of electrophysiological signals and medical imaging. Currently, her work centers on the processing and analysis of clinical sleep polysomnography (PSG) data, including EEG, ECG, and PPG signals. She is particularly interested in developing advanced deep learning methods for the intelligent recognition of sleep architecture, with the long-term goal of improving AI-assisted sleep health care.
+  
   李亚美，现任中国郑州大学脑科学与脑机接口技术河南省重点实验室助理教授。2025年6月获西南大学工学博士学位。2023年11月至2025年1月，曾以联合培养博士生身份在德国柏林夏里特医科大学跨学科睡眠医学中心进行访问研究。2021年6月获郑州大学工学硕士学位。她的研究关注于计算机科学、生物医学工程与医学的交叉领域，主要聚焦于电生理信号与医学影像的智能分析。目前的研究工作集中在临床睡眠多导仪（PSG）数据的处理与分析，包括脑电（EEG）、心电（ECG）及光电容积脉搏波（PPG）信号。她尤其关注基于深度学习的睡眠结构智能识别方法研发，旨在推动人工智能在睡眠健康辅助诊疗中的应用与发展。
 
 show_portrait: true
