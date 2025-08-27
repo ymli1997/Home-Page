@@ -20,8 +20,9 @@ linkedin: yamei-li-cs
 orcid: 0000-0002-6721-5853
 WhatsApp_qrcode: assets/images/etc/whatsapp.jpg
 
-short_bio: |
+short_bio: >-
   Yamei Li is an Assistant Professor at the Henan Key Laboratory of Brain Science and Brain-Computer Interface Technology, Zhengzhou University, China. She received her Ph.D. in Engineering from Southwest University, China, in June 2025. From November 2023 to January 2025, she was a visiting Ph.D. student at the Interdisciplinary Sleep Medicine Center, Charité – Universitätsmedizin Berlin, Germany. She obtained her M.S. degree from Zhengzhou University in June 2021. Her research lies at the intersection of computer science and biomedical engineering, with a primary focus on the intelligent analysis of electrophysiological signals and medical imaging. Currently, her work centers on the processing and analysis of clinical sleep polysomnography (PSG) data, including EEG, ECG, and PPG signals. She is particularly interested in developing advanced deep learning methods for the intelligent recognition of sleep architecture, with the long-term goal of improving AI-assisted sleep health care.
+  
   李亚美，现任中国郑州大学脑科学与脑机接口技术河南省重点实验室助理教授。2025年6月获西南大学工学博士学位。2023年11月至2025年1月，曾以联合培养博士生身份在德国柏林夏里特医科大学跨学科睡眠医学中心进行访问研究。2021年6月获郑州大学工学硕士学位。她的研究关注于计算机科学、生物医学工程与医学的交叉领域，主要聚焦于电生理信号与医学影像的智能分析。目前的研究工作集中在临床睡眠多导仪（PSG）数据的处理与分析，包括脑电（EEG）、心电（ECG）及光电容积脉搏波（PPG）信号。她尤其关注基于深度学习的睡眠结构智能识别方法研发，旨在推动人工智能在睡眠健康辅助诊疗中的应用与发展。
 
 show_portrait: true
@@ -84,9 +85,11 @@ education:
 # - name: 🎫<a href="https://www.paddlepaddle.org.cn/ppdemd?n=/ppdemd/%E7%8E%8B%E8%8D%A3%E8%83%9C">Baidu PaddlePaddle Developers Experts</a>
 #   date: 2021
 
-Academic Activities:
+academic_activities: |
 - World Sleep Society, Memeber
+
 - Selected for the 2024 International Sleep Research Training Program (ISRTP), which pairs emerging sleep researchers with leading experts in the field for comprehensive training in research design, communication, and career development. 
+
 - Invited as a co-chair of the open symposium “New Directions in Measuring Sleep Outside the Lab” at the World Sleep Congress 2025 (Singapore), focusing on the latest advances and challenges in real-world sleep measurement methods.
 
 # Feel free to replace the footer text if you would like to, but I will greatly appreciate it 
