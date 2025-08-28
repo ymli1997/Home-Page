@@ -1,21 +1,18 @@
 ---
-title:          Hybrid Residual Neural Network for Obstructive Sleep Apnea Detection Using ECG Scalogram
-date:           2025-08-01 00:01:00 +0800
-selected:       true
-pub:            "IEEE Transactions on Biomedical Engineering"
-# pub_pre:        "Submitted to "
-# pub_post:       'Under review.'
-pub_last:       ' <span class="badge badge-pill badge-custom badge-secondary">Conference</span>'
-pub_date:       "2025"
+title: "Hybrid Residual Neural Network for Obstructive Sleep Apnea Detection Using ECG Scalogram"
+date: 2025-08-01
+selected: true
 
-# abstract: >-
-#  We introduce MedVideoCap-55K, the first large-scale, diverse, and caption-rich dataset designed for medical video generation. Comprising over 55,000 curated clips from real-world clinical scenarios, it addresses the critical need for both visual fidelity and medical accuracy in applications such as training, education, and simulation.
-  
-cover:          assets/images/covers/TBME.jpg
+pub: "IEEE Transactions on Biomedical Engineering"
+pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Conference</span>"
+pub_date: "2025"
+
+cover: /assets/images/covers/TBME.jpg
+
 authors:
-  - Xielan Tang '#'
+  - Xielan Tang #
   - Bin Zhang
-  - Yamei Li '#'
+  - Yamei Li #
   - Ming Guan
   - Nian Xiong
   - Hung-Chun Li
@@ -23,6 +20,8 @@ authors:
   - Xuesheng Ma
   - Yuan Zhang †
   - Mang I Vai
+
 links:
-  Paper: [https://www.arxiv.org/abs/2507.05675](https://ieeexplore.ieee.org/document/11120836)
+  - name: "IEEE Xplore"
+    url: "https://ieeexplore.ieee.org/document/11120836"
 ---
