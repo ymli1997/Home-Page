@@ -7,9 +7,9 @@ body_attr: >-
 ---
 
 <blockquote>
-    Here is a list of my selected peer-reviewed publications.
-    # You can access my all of papers at <a href="https://scholar.google.com/citations?user=SSaBaioAAAAJ">🔗Google Scholar</a>.
+    Here is a list of my selected peer-reviewed publications. 
 </blockquote>
+# You can access my all of papers at <a href="https://scholar.google.com/citations?user=SSaBaioAAAAJ">🔗Google Scholar</a>.
 
 {% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
 
