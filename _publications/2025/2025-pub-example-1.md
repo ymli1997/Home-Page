@@ -22,6 +22,5 @@ authors:
   - Mang I Vai
 
 links:
-  - name: "IEEE Xplore"
-    url: "https://ieeexplore.ieee.org/document/11120836"
+  Paper: "https://ieeexplore.ieee.org/document/11120836"
 ---
