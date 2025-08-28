@@ -6,43 +6,80 @@ body_attr: >-
   data-spy="scroll" data-target="#navbar-year" data-offset="120"
 ---
 
-{% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
+{% assign pubs_by_year = site.publications
+  | sort: "date" | reverse
+  | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <div class="row">
-    <div class="col-12 col-lg-10">
-        {% for year in pubs_by_year %}
-        <div id="year-{{ year.name }}" style="scroll-margin-top:120px; padding-top:10px;">
-            <h2 class="pt-4">{{ year.name }}</h2>
-            <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
-                {% for item in year.items %}
-                    {% include widgets/publication_item.html item=item %}
-                {% endfor %}
-            </div>
-        </div>
+  <div class="col-12 col-lg-10">
+    {% for year in pubs_by_year %}
+    <!-- 用整年容器作为锚点 -->
+    <div id="year-{{ year.name }}" class="year-section">
+      <h2 class="pt-4">{{ year.name }}</h2>
+      <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
+        {% for item in year.items %}
+          {% include widgets/publication_item.html item=item %}
         {% endfor %}
+      </div>
     </div>
+    {% endfor %}
+    <!-- 给底部少量空间，提升最后一节体验 -->
+    <div style="height: 10vh;"></div>
+  </div>
 
-    <div class="col-2 d-none d-lg-block">
-        <div id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
-            {% for year in pubs_by_year %}
-            <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
-            {% endfor %}
-        </div>
+  <div class="col-2 d-none d-lg-block">
+    <div id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
+      {% for year in pubs_by_year %}
+      <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
+      {% endfor %}
     </div>
+  </div>
 </div>
 
-<!-- 确保 ScrollSpy 正确初始化 -->
+<!-- 初始化与刷新 ScrollSpy，避免图片加载后锚点错位 -->
 <script>
-  if (window.jQuery && $.fn.scrollspy) {
-    $('body').scrollspy({
-      target: '#navbar-year',
-      offset: 120   // 增加 offset，避免错位
-    });
+(function () {
+  function initSpy() {
+    if (window.jQuery && $.fn.scrollspy) {
+      $('body').scrollspy({ target: '#navbar-year', offset: 120 });
+      // 下一帧刷新，保证位置采集正确
+      setTimeout(function(){ $('body').scrollspy('refresh'); }, 50);
+    }
   }
+
+  // 初始
+  initSpy();
+
+  // 所有资源加载完后再刷新一次（图片等）
+  window.addEventListener('load', function () {
+    initSpy();
+  });
+
+  // 图片加载后刷新（含懒加载图片）
+  document.addEventListener('load', function (e) {
+    if (e.target && e.target.tagName === 'IMG') {
+      initSpy();
+    }
+  }, true);
+
+  // 点击侧边年份时，先手动设置 active，避免短暂错位
+  document.querySelectorAll('#navbar-year a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.querySelectorAll('#navbar-year a').forEach(el => el.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+})();
 </script>
 
 <style>
-  html {
-    scroll-behavior: smooth;
+  html { scroll-behavior: smooth; }
+
+  /* 修正锚点被固定导航遮挡的问题（120 对应 data-offset） */
+  .year-section:target::before {
+    content: "";
+    display: block;
+    height: 120px;
+    margin-top: -120px;
   }
 </style>
