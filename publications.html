@@ -81,3 +81,59 @@ body_attr: >-
     font-weight: 700;
   }
 </style>
+
+<script>
+(function(){
+  const OFFSET = 120; // 要与 CSS 里的 --anchor-offset 一致
+  const nav = document.getElementById('navbar-year');
+  if (!nav) return;
+
+  const links = Array.from(nav.querySelectorAll('a'));
+  const sections = Array.from(document.querySelectorAll('.year-section'));
+
+  // 统一设置哪个链接是 active
+  function setActiveHref(href){
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === href));
+  }
+
+  // 点击：立即高亮 + 平滑滚动（带偏移），并确保靠底也会滚动
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const href = a.getAttribute('href');
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      // 立刻高亮所点年份
+      setActiveHref(href);
+
+      // 计算滚动目标位置（减去固定头部偏移）
+      let top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
+
+      // 若目标接近页面底部，强制限制到 maxTop-1，确保一定发生滚动
+      const maxTop = document.documentElement.scrollHeight - window.innerHeight;
+      top = Math.min(top, maxTop - 1);
+
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // 滚动时：保持高亮与当前可视年份同步（IntersectionObserver）
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible && visible.target) {
+      setActiveHref('#' + visible.target.id);
+    }
+  }, {
+    root: null,
+    rootMargin: `-${OFFSET + 10}px 0px -60% 0px`,
+    threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
+  });
+
+  sections.forEach(sec => observer.observe(sec));
+})();
+</script>
+
