@@ -1,6 +1,6 @@
 ---
 title: "SAP-cGAN: Adversarial Learning for Breast Mass Segmentation in Digital Mammogram based on Superpixel Average Pooling"
-date: 2021-01-10
+date: 2021-01-10 00:01:00 +0800
 selected: true
 
 pub: "Medical Physics"
