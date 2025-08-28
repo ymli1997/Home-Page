@@ -1,32 +1,23 @@
 ---
-title:          Xiaoqing： A Q&A Model for Glaucoma Based on LLMs
-date:           2024-05-01 00:01:00 +0800
-selected:       true
-pub:            "Computers in Biology and Medicine"
-# pub_pre:        "Submitted to "
-# pub_post:       'Under review.'
-# pub_last:       ' <span class="badge badge-pill badge-custom badge-success">Spotlight</span>'
-pub_last:       ' <span class="badge badge-pill badge-custom badge-dark">Journal</span>'
-pub_date:       "2024"
+title: "A Multi-Scale CNN-LSTM Network with Squeeze and Excitation Block for Leg Movement Detection during Sleep"
+date: 2024-11-23
+selected: true
+
+pub: "2024 International Conference on Neuromorphic Computing (ICNC), IEEE"
+pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Conference</span>"
+pub_date: "2024"
+
+# cover: /assets/images/covers/TBME.jpg
 
 abstract: >-
-  We introduce Xiaoqing, an LLM model tailored for glaucoma developed through comparative and experiential experiments, demonstrating it can better serve glaucoma patients and medical research compared to general and clinical AI assistants by providing more informative and readable responses to glaucoma-related questions in Chinese.
+ A CNN-LSTM framework with multi-scale convolution and squeeze–excitation modules to detect sleep leg movement events, outperforming existing baselines on public datasets and providing a reliable tool for diagnosing periodic limb movement and restless leg syndromes.
   
-cover:          assets/images/covers/xiaoqing.jpg
 authors:
-  - Xiaojuan Xue
-  - Deshiwei Zhang
-  - Chengyang Sun
-  - Yiqiao Shi
-  - Rongsheng Wang
-  - Tao Tan
-  - Peng Gao
-  - Sujie Fan
-  - Guangtao Zhai
-  - Menghan Hu
-  - Yue Wu†
+  - Qingqing Yang
+  - Yamei Li †
+  - Xielan Tang
+  - Lu Luo
+
 links:
-  Paper: https://www.sciencedirect.com/science/article/pii/S0010482524004839
-  Demo: https://qa.glaucoma-assistant.com/#/qa
-  Cite: assets/bibtex/xue2024xiaoqing.bib
+  Paper: "https://ieeexplore.ieee.org/document/10987889"
 ---
