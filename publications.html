@@ -3,20 +3,15 @@ layout: default
 title : Publications
 navbar_name: Publications
 body_attr: >-
-  data-spy="scroll" data-target="#navbar-year" data-offset="100"
+  data-spy="scroll" data-target="#navbar-year" data-offset="120"
 ---
-
-<!-- <blockquote>
-    Here is a list of my selected peer-reviewed publications. 
-</blockquote> -->
 
 {% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <div class="row">
     <div class="col-12 col-lg-10">
         {% for year in pubs_by_year %}
-        <!-- 包裹整个年份，加 scroll-margin-top，最后一年加额外 padding-bottom -->
-        <div id="year-{{ year.name }}" style="scroll-margin-top:100px;{% if forloop.last %}padding-bottom:40vh;{% endif %}">
+        <div id="year-{{ year.name }}" style="scroll-margin-top:120px; padding-top:10px;">
             <h2 class="pt-4">{{ year.name }}</h2>
             <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
                 {% for item in year.items %}
@@ -36,15 +31,18 @@ body_attr: >-
     </div>
 </div>
 
-<!-- 确保 ScrollSpy 初始化 -->
+<!-- 确保 ScrollSpy 正确初始化 -->
 <script>
   if (window.jQuery && $.fn.scrollspy) {
-    $('body').scrollspy({ target: '#navbar-year', offset: 100 });
+    $('body').scrollspy({
+      target: '#navbar-year',
+      offset: 120   // 增加 offset，避免错位
+    });
   }
 </script>
 
 <style>
   html {
-    scroll-behavior: smooth; /* 点击时平滑滚动 */
+    scroll-behavior: smooth;
   }
 </style>
