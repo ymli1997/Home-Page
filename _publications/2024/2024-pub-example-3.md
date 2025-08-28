@@ -7,7 +7,7 @@ pub: "2024 International Conference on Neuromorphic Computing (ICNC), IEEE"
 pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Conference</span>"
 pub_date: "2024"
 
-cover: /assets/images/covers/none.jpg
+cover: /assets/images/covers/ICNC.jpg
 
 abstract: >-
  A CNN-LSTM framework with multi-scale convolution and squeeze–excitation modules to detect sleep leg movement events, outperforming existing baselines on public datasets and providing a reliable tool for diagnosing periodic limb movement and restless leg syndromes.
