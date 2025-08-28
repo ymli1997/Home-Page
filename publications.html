@@ -25,7 +25,6 @@ body_attr: >-
 <div class="row">
   <div class="col-12 col-lg-10">
     {% for year in pubs_by_year %}
-    <!-- 用 section 包一层，便于设置滚动偏移和最后一节的底部留白 -->
     <section id="year-{{ year.name }}" class="year-section">
       <h2 class="pt-4">{{ year.name }}</h2>
       <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
@@ -36,7 +35,6 @@ body_attr: >-
     </section>
     {% endfor %}
 
-    <!-- 页面底部附加说明 / CTA 卡片 -->
     <div class="alert alert-light border mt-4">
       <p class="mb-2">
         Only first-author and corresponding-author publications are listed here.
@@ -62,23 +60,19 @@ body_attr: >-
 </div>
 
 <style>
-  /* 平滑滚动（浏览器级） */
   html { scroll-behavior: smooth; }
 
-  /* 固定头部的锚点偏移（根据你的导航高度调整） */
-  :root { --anchor-offset: 120px; }
+  :root { --anchor-offset: 120px; } /* 与导航高度一致 */
 
-  /* 让每个年份区块在滚动定位时留出头部空间 */
   .year-section {
     scroll-margin-top: var(--anchor-offset);
   }
 
-  /* ✅ 给最后一个年份区块加足够的底部空间，避免“贴底点不动” */
+  /* 末尾留白：确保最后一年也能滚到位 */
   .year-section:last-of-type {
-    padding-bottom: 40vh;
+    padding-bottom: 50vh;
   }
 
-  /* 侧边年份的激活态更明显（Bootstrap 的 .active 会生效，这里加粗） */
   #navbar-year .nav-link.active {
     font-weight: 700;
   }
@@ -86,45 +80,42 @@ body_attr: >-
 
 <script>
 (function(){
-  const OFFSET = 120; // 与 CSS 中 --anchor-offset 保持一致
+  const OFFSET = 120; // 与 :root --anchor-offset 保持一致
   const nav = document.getElementById('navbar-year');
   if (!nav) return;
 
   const links = Array.from(nav.querySelectorAll('a'));
   const sections = Array.from(document.querySelectorAll('.year-section'));
 
-  // 点击期间是否锁定（不让 Observer 改高亮）
-  let locked = false;
-  let lockedHref = null;
-  let unlockTimer = null;
-  let scrollCheckBound = null;
+  // 记录每个 section 的文档高度中的 Y 坐标（标题位置）
+  let sectionTops = [];
+
+  function computeSectionTops(){
+    sectionTops = sections.map(sec => ({
+      id: sec.id,
+      top: sec.getBoundingClientRect().top + window.pageYOffset
+    })).sort((a,b)=>a.top-b.top);
+  }
 
   function setActiveHref(href){
     links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === href));
   }
 
-  // 判断目标 section 是否已经“到位”：标题在导航下方、内容有可见高度
-  function sectionInPlace(sec){
-    if (!sec) return false;
-    const r = sec.getBoundingClientRect();
-    const topOK = r.top <= OFFSET + 6;                  // 标题不被遮住
-    const hasBody = r.bottom - (OFFSET + 6) > 120;      // 可见内容足够（避免下一节更占比）
-    return topOK && hasBody;
-  }
-
-  // 尝试解锁：当目标年份真正到位时，解除锁定；同时兜底超时也会解锁
-  function tryUnlock(){
-    if (!locked || !lockedHref) return;
-    const sec = document.querySelector(lockedHref);
-    if (sectionInPlace(sec)){
-      locked = false;
-      setActiveHref(lockedHref); // 再确认一次高亮
-      window.removeEventListener('scroll', scrollCheckBound, {passive:true});
-      if (unlockTimer) clearTimeout(unlockTimer);
+  // 根据滚动位置设置当前激活年份：
+  // 选择“top <= scrollY + OFFSET + 2”的最后一个 section
+  function updateActiveByScroll(){
+    const pos = window.pageYOffset + OFFSET + 2;
+    let current = sectionTops[0];
+    for (let i = 0; i < sectionTops.length; i++){
+      if (sectionTops[i].top <= pos) current = sectionTops[i];
+      else break;
     }
+    if (current) setActiveHref('#' + current.id);
   }
 
-  // 点击：立即高亮 + 平滑滚动；上锁，直到目标就位再解锁
+  // 点击时：立即高亮 + 平滑滚动（带偏移）；
+  // 并短暂屏蔽滚动处理，避免动画过程中被覆盖
+  let suppressScroll = false;
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -132,53 +123,47 @@ body_attr: >-
       const target = document.querySelector(href);
       if (!target) return;
 
-      // 立即高亮点击的年份
+      // 立即高亮点击项
       setActiveHref(href);
 
-      // 上锁，禁止 Observer 期间改高亮
-      locked = true;
-      lockedHref = href;
-      if (unlockTimer) clearTimeout(unlockTimer);
-      if (scrollCheckBound) window.removeEventListener('scroll', scrollCheckBound, {passive:true});
-
-      // 计算位置并滚动（带头部偏移）
-      let top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
+      // 计算带偏移的目标位置
+      let top = target.getBoundingClientRect().top + window.pageYOffset - OFFSET;
       const maxTop = document.documentElement.scrollHeight - window.innerHeight;
       top = Math.min(top, Math.max(0, maxTop - 1));
+
+      suppressScroll = true;
       window.scrollTo({ top, behavior: 'smooth' });
 
-      // 滚动过程中持续检测是否“到位”，到位则解锁
-      scrollCheckBound = () => tryUnlock();
-      window.addEventListener('scroll', scrollCheckBound, {passive:true});
-
-      // 兜底：1.5s 后强制解锁（应对图片加载导致布局抖动）
-      unlockTimer = setTimeout(() => {
-        locked = false;
-        setActiveHref(href);
-        window.removeEventListener('scroll', scrollCheckBound, {passive:true});
-      }, 1500);
+      // 600ms 后解除屏蔽并用最终位置再校正一次
+      setTimeout(() => {
+        suppressScroll = false;
+        updateActiveByScroll();
+      }, 600);
     });
   });
 
-  // 滚动时自动高亮（仅当未上锁时生效）
-  const observer = new IntersectionObserver((entries) => {
-    if (locked) return; // 点击期间不改高亮，避免抖动
+  // 滚动事件：不在 suppress 状态才根据位置更新
+  window.addEventListener('scroll', () => {
+    if (suppressScroll) return;
+    updateActiveByScroll();
+  }, { passive: true });
 
-    // 选择当前“最可见”的年份区块
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (visible && visible.target) {
-      setActiveHref('#' + visible.target.id);
-    }
-  }, {
-    root: null,
-    rootMargin: `-${OFFSET + 10}px 0px -60% 0px`,
-    threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
+  // 初始化：计算位置 & 设置初始高亮
+  function init(){
+    computeSectionTops();
+    updateActiveByScroll();
+  }
+  window.addEventListener('load', init);
+  window.addEventListener('resize', () => {
+    computeSectionTops();
+    updateActiveByScroll();
   });
-
-  sections.forEach(sec => observer.observe(sec));
+  // 图片加载后可能改变布局，重新计算
+  document.addEventListener('load', (e)=>{
+    if (e && e.target && e.target.tagName === 'IMG'){
+      computeSectionTops();
+      updateActiveByScroll();
+    }
+  }, true);
 })();
 </script>
-
