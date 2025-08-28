@@ -13,14 +13,14 @@ email: "yameili@email.swu.edu.cn"
 # sscholar: Rongsheng-Wang/2261313297
 # github: wangrongsheng
 # twitter: RongshengWang
-WeChat_qrcode: assets/images/etc/wechat.jpg
+wechat_qrcode: assets/images/etc/wechat.jpg
 # wechat_prompt: >-
 #   Please tell me your <strong>name</strong> and <strong>affiliation</strong> (current or past) when adding my wechat. Thanks!
 # zhihu: wang-rong-sheng-74
 # resume: assets/cv/Resume_RongshengWang.pdf
 linkedin: yamei-li-cs
 orcid: 0000-0002-6721-5853
-WhatsApp_qrcode: assets/images/etc/whatsapp.jpg
+whatsapp_qrcode: assets/images/etc/whatsapp.jpg
 
 short_bio: |-
   Yamei Li is an Assistant Professor at the Henan Key Laboratory of Brain Science and Brain-Computer Interface Technology, Zhengzhou University, China. She received her Ph.D. in Engineering from Southwest University, China, in June 2025. From November 2023 to January 2025, she was a visiting Ph.D. student at the Interdisciplinary Sleep Medicine Center, Charité – Universitätsmedizin Berlin, Germany. She obtained her M.S. degree from Zhengzhou University in June 2021. Her research lies at the intersection of computer science and biomedical engineering, with a primary focus on the intelligent analysis of electrophysiological signals and medical imaging. Currently, her work centers on the processing and analysis of clinical sleep polysomnography (PSG) data, including EEG, ECG, and PPG signals. She is particularly interested in developing advanced deep learning methods for the intelligent recognition of sleep architecture, with the long-term goal of improving AI-assisted sleep health care.
