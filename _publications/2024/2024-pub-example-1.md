@@ -1,24 +1,25 @@
 ---
-title:          Fine-Tuning Medical Language Models for Enhanced Long-Contextual Understanding and Domain Expertise
-date:           2024-06-18 00:01:00 +0800
-selected:       true
-pub:            "Long-Context Foundation Models (LCFM) at ICML"
-# pub_pre:        "Submitted to "
-# pub_post:       'Under review.'
-pub_last:       ' <span class="badge badge-pill badge-custom badge-secondary">Conference</span><span class="badge badge-pill badge-custom badge-warning">Poster</span>'
-pub_date:       "2024"
+title: "Cross-Granular Collaborative Recognition of Cortical Arousal and Sleep Stages from Photoplethysmography"
+date: 2024-12-26
+selected: true
+
+pub: "IEEE Transactions on Biomedical Engineering"
+pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Journal</span>"
+pub_date: "2025"
+
+cover: /assets/images/covers/TBME.jpg
 
 abstract: >-
-  This study investigates the decline in long-context understanding for medical LLMs after domain-specific fine-tuning, conducting experiments to determine the best composition of general and medical training data to balance diagnostic knowledge with comprehensive reading abilities.
+  We developed CSleep, a collaborative learning framework using only raw PPG signals to jointly recognize cortical arousal and sleep stages, achieving clinically relevant accuracy while offering a cost-effective solution for accessible home sleep monitoring.
   
-cover:          assets/images/covers/lcfm_lc.png
 authors:
-  - Qimin Yang
-  - Rongsheng Wang
-  - Jiexin Chen
-  - Runqi Su
-  - Tao Tan†
+  - Yamei Li
+  - Jing Li
+  - Xinyu Sun
+  - Martin Glos
+  - Yuan Zhang †
+  - Thomas Penzel
+
 links:
-  Paper: https://arxiv.org/abs/2407.11536
-  Poster: assets/images/poster/icml2024-ws.jpeg
+  Paper: "https://ieeexplore.ieee.org/document/11120836"
 ---
