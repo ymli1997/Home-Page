@@ -60,6 +60,13 @@ experience:
 
 
 activities:
+- org: "Chinese Society of Biomedical Engineering: 2nd AI Sleep Staging Competition"
+    role: "Organizer"
+    date: "Oct. 2021 – Dec. 2021"
+    bullets:
+      - "Coordinated competition preparation and organization, attracting 26 teams from universities, research institutes, hospitals, and industry."
+      - "Responsible for post-competition result analysis and summary paper drafting, providing benchmark data and technical guidance for subsequent competitions."
+  
   - org: "International Sleep Research Training Program (ISRTP)"
     role: "Trainee"
     date: "Nov. 2023 – Nov. 2024"
@@ -70,7 +77,7 @@ activities:
     role: "Chair, Open Symposium"
     date: "Sep. 2025"
     bullets:
-      - "Chair of the open symposium *“New Directions in Measuring Sleep Outside the Lab”*, highlighting the latest advances and challenges in real-world sleep measurement methods."
+      - "Chair of the open symposium “New Directions in Measuring Sleep Outside the Lab”, highlighting the latest advances and challenges in real-world sleep measurement methods."
 
 
 
