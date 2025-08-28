@@ -59,15 +59,15 @@
                         </a> 
                         {% endif %}
 
-                        {% if site.data.profile.WeChat_qrcode %}
-                        <a href="{{ site.data.profile.WeChat_qrcode }}" target="_blank" title="WeChat QR Code">
-                          <img src="{{ site.data.profile.WeChat_qrcode }}" alt="WeChat QR Code" style="width:30px; height:30px; border-radius:4px;">
+                        {% if site.data.profile.wechat_qrcode %}
+                        <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-wechat">
+                          <i class="fab fa-weixin" aria-hidden="true"></i> WeChat
                         </a>
                         {% endif %}
                         
-                        {% if site.data.profile.WhatsApp_qrcode %}
-                        <a href="{{ site.data.profile.WhatsApp_qrcode }}" target="_blank" title="WhatsApp QR Code">
-                          <img src="{{ site.data.profile.WhatsApp_qrcode }}" alt="WhatsApp QR Code" style="width:30px; height:30px; border-radius:4px;">
+                        {% if site.data.profile.whatsapp_qrcode %}
+                        <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-whatsapp">
+                          <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
                         </a>
                         {% endif %}
 
