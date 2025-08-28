@@ -1,1 +1,29 @@
-
+<div class="my-3 p-0 bg-white shadow-sm rounded-sm">
+  <h6 class="border-bottom border-gray p-3 mb-0">
+    <i class="fas fa-university"></i> Academic Activities
+  </h6>
+  <div class="p-3">
+    {% for act in site.data.data.activities %}
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h6 class="mb-1">
+            <strong>{{ act.org }}</strong>
+            {% if act.role %}
+              <span class="text-muted">({{ act.role }})</span>
+            {% endif %}
+          </h6>
+          {% if act.date %}
+            <span class="text-muted small">{{ act.date }}</span>
+          {% endif %}
+        </div>
+        {% if act.bullets %}
+          <ul class="mb-0 pl-3">
+            {% for bullet in act.bullets %}
+              <li>{{ bullet }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
