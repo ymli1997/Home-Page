@@ -59,3 +59,19 @@ img.lazy {
     font-family: Courier, monospace;
 }
 
+/* Custom style for blockquote on publications page */
+blockquote {
+  border-left: 5px solid #3498db;   /* 左侧蓝色竖条 */
+  margin: 1em 0;
+  padding: 0.5em 1em;              /* 缩小内边距，去掉大空白 */
+  font-style: italic;
+  color: #555;
+  background: #ecf5fc;
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after {
+  content: none;   /* 去掉自动生成的引号 */
+}
+
