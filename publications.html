@@ -59,30 +59,27 @@ navbar_name: Publications
 
 <style>
   html { scroll-behavior: smooth; }
+  :root { --anchor-offset: 120px; }   /* 与你的导航高度一致 */
 
-  /* 顶部导航的锚点偏移（保持与站点导航高度一致） */
-  :root { --anchor-offset: 120px; }
-
-  /* 每个年份区块：给到位偏移 + 最小高度，避免年份过短被“抢高亮” */
+  /* 仅做锚点偏移，取消 min-height */
   .year-section {
     scroll-margin-top: var(--anchor-offset);
-    min-height: 65vh;             /* ⭐ 关键：即使只有1条，也有足够可见高度 */
-    display: block;
   }
 
-  /* 最后一节额外留白，避免贴底点不动 */
+  /* 末尾留一点空间，避免“贴底点不动” */
   .year-section:last-of-type {
-    padding-bottom: 50vh;
+    padding-bottom: 30vh;
   }
 
   #navbar-year .nav-link.active { font-weight: 700; }
 </style>
 
+
 <script>
 (function(){
-  const OFFSET = 120; // 与 --anchor-offset 保持一致
+  const OFFSET = 120; // 与 :root --anchor-offset 一致
 
-  // 🚫 若页面/布局曾开启过 Bootstrap ScrollSpy，显式关闭，避免干扰
+  // 若曾启用 Bootstrap ScrollSpy，显式关闭，避免与自定义逻辑抢控制权
   if (window.jQuery && typeof $.fn.scrollspy === 'function') {
     try { $('body').scrollspy('dispose'); } catch(e) {}
   }
@@ -93,8 +90,10 @@ navbar_name: Publications
   const links = Array.from(nav.querySelectorAll('a'));
   const sections = Array.from(document.querySelectorAll('.year-section'));
 
-  // 预计算每个 section 的文档坐标
-  let sectionTops = [];
+  let sectionTops = [];              // [{id, top}]
+  let forcedHref = null;             // 被点击“锁定”的年份（href），未越界前不切换
+  let suppressScroll = false;        // 点击滚动动画期间，防止瞬间抖动
+
   function computeSectionTops(){
     sectionTops = sections.map(sec => ({
       id: sec.id,
@@ -106,19 +105,30 @@ navbar_name: Publications
     links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === href));
   }
 
-  // 根据滚动位置设置激活年份：选取 top <= scrollY + OFFSET 的最后一个
-  function updateActiveByScroll(){
+  // 根据当前位置选择“top <= pos”的最后一个年份
+  function calcActiveByScroll(){
     const pos = window.pageYOffset + OFFSET + 1;
     let current = sectionTops[0];
     for (let i = 0; i < sectionTops.length; i++){
       if (sectionTops[i].top <= pos) current = sectionTops[i];
       else break;
     }
-    if (current) setActiveHref('#' + current.id);
+    return current ? ('#' + current.id) : null;
   }
 
-  // 点击：立即高亮 + 平滑滚动（带偏移），动画期间不更新，结束后校正一次
-  let suppressScroll = false;
+  // 是否越过“当前年 — 下一年”的中点
+  function crossedMidpoint(href){
+    const idx = sectionTops.findIndex(s => '#' + s.id === href);
+    if (idx < 0) return true;
+    const currTop = sectionTops[idx].top;
+    const nextTop = (idx < sectionTops.length - 1) ? sectionTops[idx+1].top : Infinity;
+    const mid = currTop + (nextTop - currTop) / 2;
+
+    const pos = window.pageYOffset + OFFSET + 1;
+    return pos >= mid;  // 到达或越过中点，允许切换
+  }
+
+  // 点击：立即高亮 + 平滑滚动，并“锁定”到该年，直到越过中点才释放
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -126,10 +136,10 @@ navbar_name: Publications
       const target = document.querySelector(href);
       if (!target) return;
 
-      // 立即高亮点击项
-      setActiveHref(href);
+      forcedHref = href;        // 锁定这个年份
+      setActiveHref(href);      // 立即高亮
 
-      // 计算目标位置（减去固定头部偏移），并确保不是贴底
+      // 计算带偏移的滚动目标（并避免贴底）
       let top = target.getBoundingClientRect().top + window.pageYOffset - OFFSET;
       const maxTop = document.documentElement.scrollHeight - window.innerHeight;
       top = Math.min(top, Math.max(0, maxTop - 1));
@@ -137,37 +147,47 @@ navbar_name: Publications
       suppressScroll = true;
       window.scrollTo({ top, behavior: 'smooth' });
 
-      // 动画结束后解除屏蔽并按最终位置校正一次
-      setTimeout(() => {
-        suppressScroll = false;
-        computeSectionTops();
-        updateActiveByScroll();
-      }, 650);
+      // 动画尾声解除“滚动抑制”，但仍然处于 forced 锁定状态
+      setTimeout(() => { suppressScroll = false; }, 500);
     });
   });
 
-  // 滚动事件：非抑制状态才更新
-  window.addEventListener('scroll', () => {
+  // 滚动：若存在 forced 锁定且未越过中点 → 维持锁定高亮；
+  //       否则按当前位置自动高亮。
+  function onScroll(){
     if (suppressScroll) return;
-    updateActiveByScroll();
-  }, { passive: true });
 
-  // 初始化：计算坐标 & 设置初始高亮
+    if (forcedHref){
+      if (crossedMidpoint(forcedHref)){
+        // 释放锁定，回到自动模式
+        forcedHref = null;
+      } else {
+        // 仍在本年份的“控制区”，保持锁定高亮
+        setActiveHref(forcedHref);
+        return;
+      }
+    }
+
+    const autoHref = calcActiveByScroll();
+    if (autoHref) setActiveHref(autoHref);
+  }
+
+  // 初始化与重算
   function init(){
     computeSectionTops();
-    updateActiveByScroll();
+    // 初始高亮
+    const href = calcActiveByScroll();
+    if (href) setActiveHref(href);
   }
-  window.addEventListener('load', init);
-  window.addEventListener('resize', () => {
-    computeSectionTops();
-    updateActiveByScroll();
-  });
-  // 图片/懒加载导致布局变化时，重算一次
-  document.addEventListener('load', (e)=>{
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { computeSectionTops(); onScroll(); });
+  window.addEventListener('load', () => { init(); });
+  document.addEventListener('load', e => {
     if (e && e.target && e.target.tagName === 'IMG'){
-      computeSectionTops();
-      updateActiveByScroll();
+      computeSectionTops(); onScroll();
     }
   }, true);
 })();
 </script>
+
