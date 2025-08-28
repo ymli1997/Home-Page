@@ -1,31 +1,25 @@
+
 ---
-title:          3MT-Net：A Multi-modal Multi-task Model for Breast Cancer and Pathological Subtype Classification Based on a Multicenter Study
-date:           2024-08-01 00:01:00 +0800
-selected:       true
-pub:            "IEEE Journal of Biomedical and Health Informatics"
-# pub_pre:        "Submitted to "
-# pub_post:       'Under review.'
-# pub_last:       ' <span class="badge badge-pill badge-custom badge-success">Spotlight</span>'
-pub_last:       ' <span class="badge badge-pill badge-custom badge-dark">Journal</span>'
-pub_date:       "2024"
+title: "Insights from the 2nd China Intelligent Sleep Staging Competition"
+date: 2024-05-10
+selected: false
+
+pub: "Sleep and Breathing"
+pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Journal</span>"
+pub_date: "2024"
+
+cover: /assets/images/covers/sleep.png
 
 abstract: >-
-  This study introduces "Multi-modal Multi-task Network" (3MT-Net), a deep learning architecture using clinical data, B-mode, and color Doppler ultrasound. 3MT-Net employs AM-CapsNet for tumor feature extraction, cross-attention for data fusion, and ensemble learning for optimization. Extensive testing on two datasets showed 3MT-Net outperforms the industrial-grade CAD product S-detect, achieving higher AUC.
+  We analyzed results from the 2nd China Intelligent Sleep Staging Competition, showing that AI achieves rapid (≤5 min) and high-accuracy sleep staging (up to 88.9%), but faces challenges in N1 classification, stage transitions, and inter-subject variability.
   
-cover:          assets/images/covers/3mt.png
 authors:
-  - Yaofei Duan
-  - Patrick Cheong-Iao Pang
-  - Ping He
-  - Rongsheng Wang
-  - Yue Sun
-  - Chuntao Liu
-  - Xiaorong Zhang
-  - Xirong Yuan
-  - Pengjie Song
-  - Chan-Tong Lam
-  - Ligang Cui
-  - Tao Tan†
+  - Yamei Li
+  - Zhifei Xu
+  - Zhiqiang Chen
+  - Yuan Zhang †
+  - Bin Zhang
+
 links:
-  Paper: https://ieeexplore.ieee.org/abstract/document/10640221
+  Paper: "https://link.springer.com/article/10.1007/s11325-024-03055-8"
 ---
