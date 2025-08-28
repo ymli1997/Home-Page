@@ -7,7 +7,7 @@
       <div class="mb-4">
         <div class="d-flex justify-content-between">
           <h6 class="mb-1">
-            <strong>{{ act.org }}</strong>
+            <span>{{ act.org }}<span>
             {% if act.role %}
               <span class="text-muted">({{ act.role }})</span>
             {% endif %}
@@ -17,7 +17,7 @@
           {% endif %}
         </div>
         {% if act.bullets %}
-          <ul class="mb-0 pl-3">
+          <ul class="mb-2 small">
             {% for bullet in act.bullets %}
               <li>{{ bullet }}</li>
             {% endfor %}
