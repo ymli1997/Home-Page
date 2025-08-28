@@ -2,117 +2,35 @@
 layout: default
 title : Publications
 navbar_name: Publications
+body_attr: >-
+  data-spy="scroll" data-target="#navbar-year" data-offset="100"
 ---
 
-{% assign pubs_by_year = site.publications
-  | sort: "date" | reverse
-  | group_by_exp: "item", "item.date | date: '%Y'" %}
+<blockquote>
+    Here is a list of my selected peer-reviewed publications. A complete list is available on <a href="https://scholar.google.co.uk/citations?hl=en&user=Fdae-1AAAAAJ">🔗 Google Scholar</a>.
+</blockquote>
+
+{% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <div class="row">
-  <div class="col-12 col-lg-10">
-    {% for year in pubs_by_year %}
-    <!-- Use a full-year container as the section we observe -->
-    <section id="year-{{ year.name }}" class="year-section">
-      <h2 class="pt-4">{{ year.name }}</h2>
-      <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
-        {% for item in year.items %}
-          {% include widgets/publication_item.html item=item %}
+    <div class="col-12 col-lg-10">
+        {% for year in pubs_by_year %}
+        {% assign num_papers = year.items | size %}
+        <h2 class="pt-4" id="year-{{ year.name }}">{{ year.name }}</h2>
+        <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
+            {% for item in year.items %}
+                {% include widgets/publication_item.html item=item %}
+            {% endfor %}
+        </div>
         {% endfor %}
-      </div>
-    </section>
-    {% endfor %}
-    <div style="height: 8vh;"></div>
-  </div>
+    </div>
 
-  <div class="col-2 d-none d-lg-block">
-    <nav id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
-      {% for year in pubs_by_year %}
-      <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
-      {% endfor %}
-    </nav>
-  </div>
+    <div class="col-2 d-none d-lg-block">
+        <div id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
+            {% for year in pubs_by_year %}
+            <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
-
-<style>
-  html { scroll-behavior: smooth; }
-
-  /* Offset the anchored section so the fixed header doesn't cover it */
-  :root { --anchor-offset: 120px; } /* adjust if your header height changes */
-
-  .year-section {
-    scroll-margin-top: var(--anchor-offset);
-    padding-top: 6px; /* tiny extra space for visual comfort */
-  }
-
-  /* Optional: make active link more obvious */
-  #navbar-year .nav-link.active {
-    font-weight: 700;
-  }
-</style>
-
-<script>
-(function () {
-  const OFFSET = 120; // must match --anchor-offset above
-  const nav = document.getElementById('navbar-year');
-  if (!nav) return;
-
-  const links = Array.from(nav.querySelectorAll('a'));
-  const sections = links
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
-
-  // Smooth scroll with header offset (bypasses default anchor jump)
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id = a.getAttribute('href');
-      const target = document.querySelector(id);
-      if (!target) return;
-
-      const top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
-      window.scrollTo({ top, behavior: 'smooth' });
-    });
-  });
-
-  // Use IntersectionObserver to set the active year reliably
-  let activeId = null;
-  const setActive = (id) => {
-    if (activeId === id) return;
-    activeId = id;
-    links.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-    });
-  };
-
-  // Trigger when a section top is within the viewport area below the header
-  const observer = new IntersectionObserver((entries) => {
-    // Pick the entry with the greatest intersection ratio that's actually visible
-    const visible = entries
-      .filter(en => en.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (visible && visible.target && visible.target.id) {
-      setActive(visible.target.id);
-    }
-  }, {
-    root: null,
-    rootMargin: `-${OFFSET + 10}px 0px -60% 0px`, // header offset on top; activates when header-cleared
-    threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
-  });
-
-  sections.forEach(sec => observer.observe(sec));
-
-  // Recompute on images load / window resize
-  const refresh = () => {
-    sections.forEach(sec => {
-      observer.unobserve(sec);
-      observer.observe(sec);
-    });
-  };
-  window.addEventListener('load', refresh);
-  window.addEventListener('resize', refresh);
-  document.addEventListener('load', e => {
-    if (e.target && e.target.tagName === 'IMG') refresh();
-  }, true);
-})();
-</script>
