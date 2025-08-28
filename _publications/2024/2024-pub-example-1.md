@@ -21,5 +21,5 @@ authors:
   - Thomas Penzel
 
 links:
-  Paper: "https://ieeexplore.ieee.org/document/11120836"
+  Paper: "https://ieeexplore.ieee.org/document/10816531"
 ---
