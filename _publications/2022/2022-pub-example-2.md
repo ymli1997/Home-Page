@@ -1,18 +1,24 @@
 ---
-title:          A Neural Network Recommender Algorithm Based on Bidirectional Graph Attention
-date:           2022-11-29 00:01:00 +0800
-selected:       false
-pub:            "Advances in International Computer Science"
-pub_last:       ' <span class="badge badge-pill badge-custom badge-dark">Journal</span>'
-pub_date:       "2022"
+title: "Adversarial Learning for Semi-Supervised Pediatric Sleep Staging with Single EEG Channel"
+date: 2022-03-29
+selected: true
+
+pub: "Methods"
+pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Journal</span>"
+pub_date: "2022"
+
+cover: /assets/images/covers/methods.jpg
+
 abstract: >-
-  We propose BGANR, a recommendation model that applies bidirectional graph attention on knowledge graphs to capture symmetric relationships and uses a dynamic activation function to overcome gradient vanishing, outperforming state-of-the-art methods on benchmark datasets.
+  We proposed BiSALnet, a bi-stream adversarial learning framework for semi-supervised pediatric sleep staging, achieving competitive accuracy (0.80 on local pediatric data; 0.91 on Sleep-EDF) with limited labeled data.
   
-cover:          assets/images/covers/bganr.png
 authors:
-  - Hui Ning†
-  - Rongsheng Wang
-  - Pengwei Yang
+  - Yamei Li
+  - Caijing Peng
+  - Yinkai Zhang
+  - Yuan Zhang †
+  - Benny Lo
+
 links:
-  Paper: https://doi.org/10.12208/j.aics.20220057
+  Paper: "https://www.sciencedirect.com/science/article/abs/pii/S1046202322000809"
 ---
