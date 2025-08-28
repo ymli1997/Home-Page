@@ -1,6 +1,6 @@
 ---
 title: "Hybrid Residual Neural Network for Obstructive Sleep Apnea Detection Using ECG Scalogram"
-date: 2025-08-01
+date: 2025-08-08
 selected: true
 
 pub: "IEEE Transactions on Biomedical Engineering"
