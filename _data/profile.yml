@@ -86,12 +86,18 @@ education:
 #   date: 2021
 
 service:
-  - org: "World Sleep Society"
-    role: "Member"
-    date: "Nov. 2023 - Now"
+  - org: "International Sleep Research Training Program (ISRTP)"
+    role: "Trainee"
+    date: "Nov. 2023 – Nov. 2024"
     bullets:
-      - "Selected for the 2024 International Sleep Research Training Program (ISRTP), which pairs emerging sleep researchers with leading experts in the field for comprehensive training in research design, communication, and career development. "
-      - "Invited as a co-chair of the open symposium “New Directions in Measuring Sleep Outside the Lab” at the World Sleep Congress 2025 (Singapore), focusing on the latest advances and challenges in real-world sleep measurement methods."
+      - "Selected as one of the ISRTP 2024 trainees, receiving comprehensive training in research design, communication, and career development under the mentorship of leading international sleep experts."
+
+  - org: "World Sleep Congress 2025, Singapore"
+    role: "Chair, Open Symposium"
+    date: "Sep. 2025"
+    bullets:
+      - "Chair of the open symposium *“New Directions in Measuring Sleep Outside the Lab”*, highlighting the latest advances and challenges in real-world sleep measurement methods."
+
 
 
 # Feel free to replace the footer text if you would like to, but I will greatly appreciate it 
