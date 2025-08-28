@@ -60,6 +60,18 @@ experience:
 
 
 activities:
+  - org: "World Sleep Congress 2025, Singapore"
+    role: "Chair, Open Symposium"
+    date: "Sep. 2025"
+    bullets:
+      - "Chair of the open symposium “New Directions in Measuring Sleep Outside the Lab”, highlighting the latest advances and challenges in real-world sleep measurement methods."
+ 
+  - org: "International Sleep Research Training Program (ISRTP)"
+    role: "Trainee"
+    date: "Nov. 2023 – Nov. 2024"
+    bullets:
+      - "Selected as one of the ISRTP 2024 trainees, receiving comprehensive training in research design, communication, and career development under the mentorship of leading international sleep experts."
+ 
   - org: "Chinese Society of Biomedical Engineering: 2nd AI Sleep Staging Competition"
     role: "Organizer"
     date: "Oct. 2021 – Dec. 2021"
@@ -67,18 +79,6 @@ activities:
       - "Coordinated competition preparation and organization, attracting 26 teams from universities, research institutes, hospitals, and industry."
       - "Responsible for post-competition result analysis and summary paper drafting, providing benchmark data and technical guidance for subsequent competitions."
   
-  - org: "International Sleep Research Training Program (ISRTP)"
-    role: "Trainee"
-    date: "Nov. 2023 – Nov. 2024"
-    bullets:
-      - "Selected as one of the ISRTP 2024 trainees, receiving comprehensive training in research design, communication, and career development under the mentorship of leading international sleep experts."
-
-  - org: "World Sleep Congress 2025, Singapore"
-    role: "Chair, Open Symposium"
-    date: "Sep. 2025"
-    bullets:
-      - "Chair of the open symposium “New Directions in Measuring Sleep Outside the Lab”, highlighting the latest advances and challenges in real-world sleep measurement methods."
-
 
 
 # Feel free to replace the footer text if you would like to, but I will greatly appreciate it 
