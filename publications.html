@@ -11,8 +11,8 @@ navbar_name: Publications
 <blockquote>
   <p>
     <em>
-      Here is a list of my first-author and corresponding-author peer-reviewed publications. 
-      A complete list is available on 
+      Here is a list of my first-author and corresponding-author peer-reviewed publications.
+      A complete list is available on
       <a href="https://scholar.google.co.uk/citations?hl=en&user=Fdae-1AAAAAJ" target="_blank">
         <i class="fas fa-link"></i> Google Scholar
       </a>.
@@ -20,12 +20,10 @@ navbar_name: Publications
   </p>
 </blockquote>
 
-
-
 <div class="row">
   <div class="col-12 col-lg-10">
     {% for year in pubs_by_year %}
-    <!-- Use a full-year container as the section we observe -->
+    <!-- Each year is an observed section with anchor-friendly offset -->
     <section id="year-{{ year.name }}" class="year-section">
       <h2 class="pt-4">{{ year.name }}</h2>
       <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
@@ -50,18 +48,31 @@ navbar_name: Publications
 <style>
   html { scroll-behavior: smooth; }
 
-  /* Offset the anchored section so the fixed header doesn't cover it */
-  :root { --anchor-offset: 120px; } /* adjust if your header height changes */
+  /* Anchor offset so fixed header doesn't cover section titles */
+  :root { --anchor-offset: 120px; } /* adjust if header height changes */
 
   .year-section {
     scroll-margin-top: var(--anchor-offset);
-    padding-top: 6px; /* tiny extra space for visual comfort */
+    padding-top: 6px;
   }
 
-  /* Optional: make active link more obvious */
+  /* Optional: clearer active state */
   #navbar-year .nav-link.active {
     font-weight: 700;
   }
+
+  /* (Optional) tighter blockquote style; move to global.css if you want it site-wide
+  blockquote {
+    border-left: 5px solid #3498db;
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    font-style: italic;
+    color: #555;
+    background: #ecf5fc;
+    quotes: none;
+  }
+  blockquote::before, blockquote::after { content: none; }
+  */
 </style>
 
 <script>
@@ -75,42 +86,45 @@ navbar_name: Publications
     .map(a => document.querySelector(a.getAttribute('href')))
     .filter(Boolean);
 
-  // Smooth scroll with header offset (bypasses default anchor jump)
-
   let manualScrolling = false;
-
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id = a.getAttribute('href');
-      const target = document.querySelector(id);
-      if (!target) return;
-  
-      manualScrolling = true; // 暂停 observer 控制
-      setActive(id.substring(1)); // 手动设置当前高亮
-  
-      const top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
-      window.scrollTo({ top, behavior: 'smooth' });
-  
-      // 等 600ms（滚动动画大约时间）再恢复 observer
-      setTimeout(() => { manualScrolling = false; }, 600);
-    });
-  });
-
-
-  // Use IntersectionObserver to set the active year reliably
   let activeId = null;
-  const setActive = (id) => {
-    if (manualScrolling) return; // 点击滚动时跳过自动切换
+
+  // Force-capable active setter: when force=true, ignore manualScrolling guard
+  const setActive = (id, force = false) => {
+    if (!force && manualScrolling) return;
     activeId = id;
     links.forEach(link => {
       link.classList.toggle('active', link.getAttribute('href') === '#' + id);
     });
   };
 
-  // Trigger when a section top is within the viewport area below the header
+  // Smooth scroll with header offset; click sets active immediately and
+  // pauses observer-driven updates to prevent flicker.
+  links.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      // 1) highlight target year immediately
+      setActive(id, true);
+
+      // 2) pause observer updates during the scroll animation
+      manualScrolling = true;
+
+      // 3) scroll with offset
+      const top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
+      window.scrollTo({ top, behavior: 'smooth' });
+
+      // 4) resume observer updates after animation
+      setTimeout(() => { manualScrolling = false; }, 600);
+    });
+  });
+
+  // IntersectionObserver to auto-activate current year
   const observer = new IntersectionObserver((entries) => {
-    // Pick the entry with the greatest intersection ratio that's actually visible
+    // choose the most visible intersecting section
     const visible = entries
       .filter(en => en.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -120,20 +134,27 @@ navbar_name: Publications
     }
   }, {
     root: null,
-    rootMargin: `-${OFFSET + 10}px 0px -60% 0px`, // header offset on top; activates when header-cleared
+    rootMargin: `-${OFFSET + 10}px 0px -60% 0px`,
     threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
   });
 
   sections.forEach(sec => observer.observe(sec));
 
-  // Recompute on images load / window resize
+  // Initialize active state on load (pick first section in view)
+  window.addEventListener('load', () => {
+    for (const sec of sections) {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top >= 0 && rect.top < window.innerHeight) {
+        setActive(sec.id, true);
+        break;
+      }
+    }
+  });
+
+  // Refresh observer when layout changes (resize / images load)
   const refresh = () => {
-    sections.forEach(sec => {
-      observer.unobserve(sec);
-      observer.observe(sec);
-    });
+    sections.forEach(sec => { observer.unobserve(sec); observer.observe(sec); });
   };
-  window.addEventListener('load', refresh);
   window.addEventListener('resize', refresh);
   document.addEventListener('load', e => {
     if (e.target && e.target.tagName === 'IMG') refresh();
