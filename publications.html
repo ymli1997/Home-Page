@@ -86,24 +86,45 @@ body_attr: >-
 
 <script>
 (function(){
-  const OFFSET = 120; // 要与 CSS 里的 --anchor-offset 一致
+  const OFFSET = 120; // 与 CSS 中 --anchor-offset 保持一致
   const nav = document.getElementById('navbar-year');
   if (!nav) return;
 
   const links = Array.from(nav.querySelectorAll('a'));
   const sections = Array.from(document.querySelectorAll('.year-section'));
 
-  // 当前是否处于“手动滚动中”（点击触发的平滑滚动）
-  let manualScrolling = false;
-  let manualTimer = null;
+  // 点击期间是否锁定（不让 Observer 改高亮）
+  let locked = false;
+  let lockedHref = null;
+  let unlockTimer = null;
+  let scrollCheckBound = null;
 
-  // 统一设置哪个链接是 active；当 manualScrolling=true 且非强制时，跳过更新
-  function setActiveHref(href, force = false){
-    if (manualScrolling && !force) return;
+  function setActiveHref(href){
     links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === href));
   }
 
-  // 点击：立即高亮 + 平滑滚动（带偏移），滚动期间暂时禁用 Observer 更新，避免“打架”
+  // 判断目标 section 是否已经“到位”：标题在导航下方、内容有可见高度
+  function sectionInPlace(sec){
+    if (!sec) return false;
+    const r = sec.getBoundingClientRect();
+    const topOK = r.top <= OFFSET + 6;                  // 标题不被遮住
+    const hasBody = r.bottom - (OFFSET + 6) > 120;      // 可见内容足够（避免下一节更占比）
+    return topOK && hasBody;
+  }
+
+  // 尝试解锁：当目标年份真正到位时，解除锁定；同时兜底超时也会解锁
+  function tryUnlock(){
+    if (!locked || !lockedHref) return;
+    const sec = document.querySelector(lockedHref);
+    if (sectionInPlace(sec)){
+      locked = false;
+      setActiveHref(lockedHref); // 再确认一次高亮
+      window.removeEventListener('scroll', scrollCheckBound, {passive:true});
+      if (unlockTimer) clearTimeout(unlockTimer);
+    }
+  }
+
+  // 点击：立即高亮 + 平滑滚动；上锁，直到目标就位再解锁
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -111,35 +132,39 @@ body_attr: >-
       const target = document.querySelector(href);
       if (!target) return;
 
-      // 立刻高亮所点年份（强制）
-      setActiveHref(href, true);
+      // 立即高亮点击的年份
+      setActiveHref(href);
 
-      // 开始“手动滚动模式”，暂停 Observer 的高亮更新
-      manualScrolling = true;
-      if (manualTimer) clearTimeout(manualTimer);
+      // 上锁，禁止 Observer 期间改高亮
+      locked = true;
+      lockedHref = href;
+      if (unlockTimer) clearTimeout(unlockTimer);
+      if (scrollCheckBound) window.removeEventListener('scroll', scrollCheckBound, {passive:true});
 
-      // 计算滚动目标位置（减去固定头部偏移）
+      // 计算位置并滚动（带头部偏移）
       let top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
-
-      // 若目标接近页面底部，强制限制到 maxTop-1，确保一定发生滚动
       const maxTop = document.documentElement.scrollHeight - window.innerHeight;
       top = Math.min(top, Math.max(0, maxTop - 1));
-
       window.scrollTo({ top, behavior: 'smooth' });
 
-      // 在动画结束后恢复 Observer 更新（600~700ms 够用，按需求微调）
-      manualTimer = setTimeout(() => {
-        manualScrolling = false;
-      }, 700);
+      // 滚动过程中持续检测是否“到位”，到位则解锁
+      scrollCheckBound = () => tryUnlock();
+      window.addEventListener('scroll', scrollCheckBound, {passive:true});
+
+      // 兜底：1.5s 后强制解锁（应对图片加载导致布局抖动）
+      unlockTimer = setTimeout(() => {
+        locked = false;
+        setActiveHref(href);
+        window.removeEventListener('scroll', scrollCheckBound, {passive:true});
+      }, 1500);
     });
   });
 
-  // 滚动时：保持高亮与当前可视年份同步（IntersectionObserver）
+  // 滚动时自动高亮（仅当未上锁时生效）
   const observer = new IntersectionObserver((entries) => {
-    // 手动滚动时，跳过自动更新，避免抖动
-    if (manualScrolling) return;
+    if (locked) return; // 点击期间不改高亮，避免抖动
 
-    // 取最可见的 section
+    // 选择当前“最可见”的年份区块
     const visible = entries
       .filter(e => e.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -156,3 +181,4 @@ body_attr: >-
   sections.forEach(sec => observer.observe(sec));
 })();
 </script>
+
