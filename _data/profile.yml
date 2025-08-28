@@ -33,15 +33,15 @@ portrait_caption: >-
 education:
 - name: Southwest University, Chongqing, China
   logo: assets/images/badges/swu.png
-  position: Ph.D. in Computer Science and Technology
+  position: Ph.D. in Computer Science and Technology (Supervised by <a href="https://ieeexplore.ieee.org/author/37599076000">Yuan Zhang</a>)
   date: Sep. 2021 - Jun. 2025
 - name: Charité–Universitätsmedizin Berlin, Berlin, Germany
   logo: assets/images/badges/charite.png
-  position: Visiting Ph.D. in Biomedical Engineering
+  position: Visiting Ph.D. in Biomedical Engineering  (Supervised by <a href="https://ieeexplore.ieee.org/author/37320961300">Thomas Penzel</a>)
   date: Nov. 2023 - Jan. 2025
 - name: Zhengzhou University, Zhengzhou, China
   logo: assets/images/badges/zzu.png
-  position: M.S. in Computer Science and Technology
+  position: M.S. in Computer Science and Technology (Supervised by <a href="https://www.researchgate.net/profile/Meiyun-Wang-3">Meiyun Wang</a>)
   date: Sep. 2018 - Jul. 2021
 - name: Liaoning Normal University, Dalian, China
   logo: assets/images/badges/lnu.png
@@ -51,7 +51,7 @@ education:
 experience:
 - name: Zhengzhou University
   logo: assets/images/badges/zzu.png
-  position: Assistant Professor (Supervisor is <a href="https://wabyking.github.io/old.html">Benyou Wang</a>)
+  position: Assistant Professor 
   date: Aug. 2025 - Now
 - name: Zhengzhou University
   logo:  assets/images/badges/zzu.png
@@ -59,30 +59,7 @@ experience:
   date: Aug. 2025 - Now
 
 
-
-# awards:
-# - name: 🥇First Prize of LIC 2025
-#   date: 2025
-# - name: 🎫Kaggle Competitions Expert
-#   date: 2025
-# - name: 🥇Gold Medal of Kaggle AI Mathematical Olympiad - Progress Prize 2
-#   date: 2025
-# - name: 🎫Outstanding Award of JingDong Health - Global AI Innovation Competition
-#   date: 2024
-# - name: 🥇First Prize of Baidu PaddlePaddle AGI Hackathon
-#   date: 2024
-# - name: 🥉Third Prize of DiMTAIC (Organized by JingDong Health)
-#   date: 2023
-# - name: 🥉Third Prize of Baichuan Intelligence and Amazon Cloud AGI Hackathon
-#   date: 2023
-# - name: 🥈Silver Medal of Kaggle RSNA Screening Mammography Cancer Detection
-#   date: 2023
-# - name: 🎫Outstanding Award of IEEE UV 2022 Object Detection Challenge
-#   date: 2022
-# - name: 🎫<a href="https://www.paddlepaddle.org.cn/ppdemd?n=/ppdemd/%E7%8E%8B%E8%8D%A3%E8%83%9C">Baidu PaddlePaddle Developers Experts</a>
-#   date: 2021
-
-service:
+awards:
   - org: "International Sleep Research Training Program (ISRTP)"
     role: "Trainee"
     date: "Nov. 2023 – Nov. 2024"
@@ -94,6 +71,20 @@ service:
     date: "Sep. 2025"
     bullets:
       - "Chair of the open symposium *“New Directions in Measuring Sleep Outside the Lab”*, highlighting the latest advances and challenges in real-world sleep measurement methods."
+
+
+# service:
+#   - org: "International Sleep Research Training Program (ISRTP)"
+#     role: "Trainee"
+#     date: "Nov. 2023 – Nov. 2024"
+#     bullets:
+#       - "Selected as one of the ISRTP 2024 trainees, receiving comprehensive training in research design, communication, and career development under the mentorship of leading international sleep experts."
+
+#   - org: "World Sleep Congress 2025, Singapore"
+#     role: "Chair, Open Symposium"
+#     date: "Sep. 2025"
+#     bullets:
+#       - "Chair of the open symposium *“New Directions in Measuring Sleep Outside the Lab”*, highlighting the latest advances and challenges in real-world sleep measurement methods."
 
 
 
