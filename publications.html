@@ -76,22 +76,32 @@ navbar_name: Publications
     .filter(Boolean);
 
   // Smooth scroll with header offset (bypasses default anchor jump)
+
+  let manualScrolling = false;
+
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
       const id = a.getAttribute('href');
       const target = document.querySelector(id);
       if (!target) return;
-
+  
+      manualScrolling = true; // 暂停 observer 控制
+      setActive(id.substring(1)); // 手动设置当前高亮
+  
       const top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
       window.scrollTo({ top, behavior: 'smooth' });
+  
+      // 等 600ms（滚动动画大约时间）再恢复 observer
+      setTimeout(() => { manualScrolling = false; }, 600);
     });
   });
+
 
   // Use IntersectionObserver to set the active year reliably
   let activeId = null;
   const setActive = (id) => {
-    if (activeId === id) return;
+    if (manualScrolling) return; // 点击滚动时跳过自动切换
     activeId = id;
     links.forEach(link => {
       link.classList.toggle('active', link.getAttribute('href') === '#' + id);
