@@ -9,6 +9,9 @@ pub_date: "2025"
 
 cover: /assets/images/covers/TBME.jpg
 
+abstract: >-
+  We proposed an adaptive denoising synchrosqueezed wavelet transform (ADSWT) with a hybrid residual neural network (HRN-Net) to classify obstructive sleep apnea from ECG signals, achieving high accuracy and robustness across public and private datasets.
+  
 authors:
   - Xielan Tang 
   - Bin Zhang
