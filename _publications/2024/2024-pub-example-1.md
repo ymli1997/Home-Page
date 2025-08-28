@@ -5,7 +5,7 @@ selected: true
 
 pub: "IEEE Transactions on Biomedical Engineering"
 pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Journal</span>"
-pub_date: "2025"
+pub_date: "2024"
 
 cover: /assets/images/covers/TBME.jpg
 
