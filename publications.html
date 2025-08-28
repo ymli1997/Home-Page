@@ -10,22 +10,21 @@ body_attr: >-
     Here is a list of my selected peer-reviewed publications. 
 </blockquote> -->
 
-
 {% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <div class="row">
     <div class="col-12 col-lg-10">
         {% for year in pubs_by_year %}
-        {% assign num_papers = year.items | size %}
-        <h2 class="pt-4" id="year-{{ year.name }}">{{ year.name }}</h2>
-        <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
-            {% for item in year.items %}
-                {% include widgets/publication_item.html item=item %}
-            {% endfor %}
+        <!-- 包裹整个年份，加 scroll-margin-top，最后一年加额外 padding-bottom -->
+        <div id="year-{{ year.name }}" style="scroll-margin-top:100px;{% if forloop.last %}padding-bottom:40vh;{% endif %}">
+            <h2 class="pt-4">{{ year.name }}</h2>
+            <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
+                {% for item in year.items %}
+                    {% include widgets/publication_item.html item=item %}
+                {% endfor %}
+            </div>
         </div>
         {% endfor %}
-        <!-- give bottom space for ScrollSpy to catch the last section -->
-        <div style="height: 200px;">
     </div>
 
     <div class="col-2 d-none d-lg-block">
@@ -35,5 +34,17 @@ body_attr: >-
             {% endfor %}
         </div>
     </div>
-
 </div>
+
+<!-- 确保 ScrollSpy 初始化 -->
+<script>
+  if (window.jQuery && $.fn.scrollspy) {
+    $('body').scrollspy({ target: '#navbar-year', offset: 100 });
+  }
+</script>
+
+<style>
+  html {
+    scroll-behavior: smooth; /* 点击时平滑滚动 */
+  }
+</style>
