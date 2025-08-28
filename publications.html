@@ -2,11 +2,9 @@
 layout: default
 title : Publications
 navbar_name: Publications
+body_attr: >-
+  data-spy="scroll" data-target="#navbar-year" data-offset="100"
 ---
-
-{% assign pubs_by_year = site.publications
-  | sort: "date" | reverse
-  | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <blockquote>
   <p>
@@ -20,144 +18,28 @@ navbar_name: Publications
   </p>
 </blockquote>
 
-<div class="row">
-  <div class="col-12 col-lg-10">
-    {% for year in pubs_by_year %}
-    <!-- Each year is an observed section with anchor-friendly offset -->
-    <section id="year-{{ year.name }}" class="year-section">
-      <h2 class="pt-4">{{ year.name }}</h2>
-      <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
-        {% for item in year.items %}
-          {% include widgets/publication_item.html item=item %}
-        {% endfor %}
-      </div>
-    </section>
-    {% endfor %}
-    <div style="height: 8vh;"></div>
-  </div>
+{% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
 
-  <div class="col-2 d-none d-lg-block">
-    <nav id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
-      {% for year in pubs_by_year %}
-      <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
-      {% endfor %}
-    </nav>
-  </div>
+<div class="row">
+    <div class="col-12 col-lg-10">
+        {% for year in pubs_by_year %}
+        {% assign num_papers = year.items | size %}
+        <h2 class="pt-4" id="year-{{ year.name }}">{{ year.name }}</h2>
+        <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
+            {% for item in year.items %}
+                {% include widgets/publication_item.html item=item %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-2 d-none d-lg-block">
+        <div id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
+            {% for year in pubs_by_year %}
+            <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 
-<style>
-  html { scroll-behavior: smooth; }
-
-  /* Anchor offset so fixed header doesn't cover section titles */
-  :root { --anchor-offset: 120px; } /* adjust if header height changes */
-
-  .year-section {
-    scroll-margin-top: var(--anchor-offset);
-    padding-top: 6px;
-  }
-
-  /* Optional: clearer active state */
-  #navbar-year .nav-link.active {
-    font-weight: 700;
-  }
-
-  /* (Optional) tighter blockquote style; move to global.css if you want it site-wide
-  blockquote {
-    border-left: 5px solid #3498db;
-    margin: 1em 0;
-    padding: 0.5em 1em;
-    font-style: italic;
-    color: #555;
-    background: #ecf5fc;
-    quotes: none;
-  }
-  blockquote::before, blockquote::after { content: none; }
-  */
-</style>
-
-<script>
-(function () {
-  const OFFSET = 120; // must match --anchor-offset above
-  const nav = document.getElementById('navbar-year');
-  if (!nav) return;
-
-  const links = Array.from(nav.querySelectorAll('a'));
-  const sections = links
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
-
-  let manualScrolling = false;
-  let activeId = null;
-
-  // Force-capable active setter: when force=true, ignore manualScrolling guard
-  const setActive = (id, force = false) => {
-    if (!force && manualScrolling) return;
-    activeId = id;
-    links.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-    });
-  };
-
-  // Smooth scroll with header offset; click sets active immediately and
-  // pauses observer-driven updates to prevent flicker.
-  links.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const id = a.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (!target) return;
-
-      // 1) highlight target year immediately
-      setActive(id, true);
-
-      // 2) pause observer updates during the scroll animation
-      manualScrolling = true;
-
-      // 3) scroll with offset
-      const top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
-      window.scrollTo({ top, behavior: 'smooth' });
-
-      // 4) resume observer updates after animation
-      setTimeout(() => { manualScrolling = false; }, 600);
-    });
-  });
-
-  // IntersectionObserver to auto-activate current year
-  const observer = new IntersectionObserver((entries) => {
-    // choose the most visible intersecting section
-    const visible = entries
-      .filter(en => en.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-    if (visible && visible.target && visible.target.id) {
-      setActive(visible.target.id);
-    }
-  }, {
-    root: null,
-    rootMargin: `-${OFFSET + 10}px 0px -60% 0px`,
-    threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
-  });
-
-  sections.forEach(sec => observer.observe(sec));
-
-  // Initialize active state on load (pick first section in view)
-  window.addEventListener('load', () => {
-    for (const sec of sections) {
-      const rect = sec.getBoundingClientRect();
-      if (rect.top >= 0 && rect.top < window.innerHeight) {
-        setActive(sec.id, true);
-        break;
-      }
-    }
-  });
-
-  // Refresh observer when layout changes (resize / images load)
-  const refresh = () => {
-    sections.forEach(sec => { observer.unobserve(sec); observer.observe(sec); });
-  };
-  window.addEventListener('resize', refresh);
-  document.addEventListener('load', e => {
-    if (e.target && e.target.tagName === 'IMG') refresh();
-  }, true);
-})();
-</script>
