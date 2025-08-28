@@ -53,17 +53,18 @@
                         </a>
                         {% endif %}
                         
-                        {% if site.data.profile.github %}
-                        <a class="pr-3 no-break" target="_blank" href="https://github.com/{{ site.data.profile.github }}">
-                            <i class="fab fa-github"></i> GitHub
-                        </a> 
-                        {% endif %}
-
                         {% if site.data.profile.wechat_qrcode %}
                         <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-wechat">
                           <i class="fab fa-weixin" aria-hidden="true"></i> WeChat
                         </a>
                         {% endif %}
+                        
+                        {% if site.data.profile.whatsapp_qrcode %}
+                        <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-whatsapp">
+                          <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+                        </a>
+                        {% endif %}
+
                         
                         {% if site.data.profile.whatsapp_qrcode %}
                         <a class="pr-3 no-break" data-toggle="modal" data-target="#modal-whatsapp">
@@ -122,21 +123,24 @@
 </div>
 
 {% if site.data.profile.wechat_qrcode %}
-<div class="modal fade" id="modal-wechat" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body p-0">
-                <img src="{{ site.data.profile.wechat_qrcode }}" class="img-fluid">
-            </div>
-            {% if site.data.profile.wechat_prompt %}
-            <div class="modal-body p-1">
-                {{ site.data.profile.wechat_prompt }}
-            </div>
-            {% endif %}
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+<div class="modal fade" id="modal-wechat" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-3 text-center">
+      <img src="{{ site.data.profile.wechat_qrcode | relative_url }}" alt="WeChat QR Code" style="max-width:100%;height:auto;">
+      <button type="button" class="btn btn-primary mt-2" data-dismiss="modal">Close</button>
     </div>
+  </div>
 </div>
 {% endif %}
+
+{% if site.data.profile.whatsapp_qrcode %}
+<div class="modal fade" id="modal-whatsapp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-3 text-center">
+      <img src="{{ site.data.profile.whatsapp_qrcode | relative_url }}" alt="WhatsApp QR Code" style="max-width:100%;height:auto;">
+      <button type="button" class="btn btn-primary mt-2" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+
