@@ -20,9 +20,9 @@ Link:
 {%- assign me = site.data.profile.primary_name | default: "Yamei Li" -%}
 
 {%- for raw in authors -%}
-  {%- assign is_cofirst = raw contains "#" -%}
-  {%- assign is_corr = raw contains "†" -%}
-  {%- assign key = raw | replace: "#","" | replace: "†","" | strip -%}
+  {%- assign is_cofirst = raw contains "†" -%}
+  {%- assign is_corr = raw contains "#" -%}
+  {%- assign key = raw | replace: "†","" | replace: "#","" | strip -%}
 
   {%- assign info = site.data.authors[key] -%}
   {%- assign name = info.name | default: key -%}
