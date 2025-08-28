@@ -1,28 +1,22 @@
 {%- comment -%}
 Usage:
   authors:
-    - Alice #
+    - Alice
     - Bob †
-    - Yamei Li #
-Markers:
-  #  -> co-first author
-  †  -> corresponding author
-Bold:
+    - Yamei Li
+功能：
   - 自动加粗 site.data.profile.primary_name（若无则默认 "Yamei Li"）
-  - 若 site.data.authors[NAME].bold == true 也会加粗
-Link:
-  - 若 site.data.authors[NAME].url 存在，则给该作者名加链接
+  - 支持 † 通讯作者，在末尾统一加注 († corresponding author)
+  - 可在 _data/authors.yml 中配置 name/url/bold
 {%- endcomment -%}
 
 {%- assign authors = include.authors -%}
-{%- assign has_cofirst = false -%}
 {%- assign has_corr = false -%}
 {%- assign me = site.data.profile.primary_name | default: "Yamei Li" -%}
 
 {%- for raw in authors -%}
-  {%- assign is_cofirst = raw contains "†" -%}
-  {%- assign is_corr = raw contains "#" -%}
-  {%- assign key = raw | replace: "†","" | replace: "#","" | strip -%}
+  {%- assign is_corr = raw contains "†" -%}
+  {%- assign key = raw | replace: "†","" | strip -%}
 
   {%- assign info = site.data.authors[key] -%}
   {%- assign name = info.name | default: key -%}
@@ -44,13 +38,9 @@ Link:
 
   {%- unless forloop.last -%}, {%- endunless -%}
 
-  {%- if is_cofirst -%}{%- assign has_cofirst = true -%}{%- endif -%}
   {%- if is_corr -%}{%- assign has_corr = true -%}{%- endif -%}
 {%- endfor -%}
 
-{%- if has_cofirst -%}
-  <span class="badge badge-light ml-1">(＊ co-first author)</span>
-{%- endif -%}
 {%- if has_corr -%}
   <span class="badge badge-light ml-1">(† corresponding author)</span>
 {%- endif -%}
