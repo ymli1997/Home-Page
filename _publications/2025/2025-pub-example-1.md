@@ -10,9 +10,9 @@ pub_date: "2025"
 cover: /assets/images/covers/TBME.jpg
 
 authors:
-  - Xielan Tang #
+  - Xielan Tang 
   - Bin Zhang
-  - Yamei Li #
+  - Yamei Li (co-first author)
   - Ming Guan
   - Nian Xiong
   - Hung-Chun Li
