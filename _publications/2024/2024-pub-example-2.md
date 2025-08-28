@@ -1,7 +1,7 @@
 ---
 title: "OSA-Net: A Deep Learning Approach for Obstructive Sleep Apnea Classification Using ECG Scalograms"
 date: 2024-11-23
-selected: true
+selected: false
 
 pub: "2024 International Conference on Neuromorphic Computing (ICNC), IEEE"
 pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Conference</span>"
