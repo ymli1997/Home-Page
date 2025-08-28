@@ -1,27 +1,23 @@
 ---
-title:          XrayGLM： Summarizing Chest X-ray Reports Using a Large Medical Visual Language Model
-date:           2024-07-17 00:01:00 +0800
-selected:       true
-pub:            "RSNA’s Cutting-Edge Research"
-# pub_pre:        "Submitted to "
-# pub_post:       'Under review.'
-pub_last:       ' <span class="badge badge-pill badge-custom badge-secondary">Conference</span><span class="badge badge-pill badge-custom badge-success">Oral</span>'
-pub_date:       "2024"
+title: "OSA-Net: A Deep Learning Approach for Obstructive Sleep Apnea Classification Using ECG Scalograms"
+date: 2024-11-23
+selected: true
+
+pub: "2024 International Conference on Neuromorphic Computing (ICNC), IEEE"
+pub_last: "<span class='badge badge-pill badge-custom badge-secondary'>Conference</span>"
+pub_date: "2024"
+
+# cover: /assets/images/covers/TBME.jpg
 
 abstract: >-
-  We introduce XrayGLM, a conversational medical visual language model that analyzes and summarizes chest X-rays, aimed at improving domain-specific expertise for radiology tasks compared to general large models.
+ We proposed OSA-Net, an ECG-based deep learning framework using wavelet scalograms to automatically detect obstructive sleep apnea, achieving over 91% accuracy and showing strong potential to assist clinical diagnosis.
   
-cover:          assets/images/covers/xrayglm.png
 authors:
-  - Lin Li
-  - Rongsheng Wang
-  - Qimin Yang
-  - Jiexin Chen
-  - Patrick Cheong-Iao Pang
-  - Yapeng Wang
-  - Ka-Hou Chan
-  - Tao Tan
-  - Jie Ma†
+  - Xielan Tang
+  - Yamei Li †
+  - Qingqing Yang
+  - Lu Luo
+
 links:
-  Code: https://github.com/WangRongsheng/XrayGLM
+  Paper: "https://ieeexplore.ieee.org/document/10987859"
 ---
