@@ -18,7 +18,9 @@ body_attr: >-
   </p>
 </blockquote>
 
-{% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
+{% assign pubs_by_year = site.publications
+   | sort: "date" | reverse
+   | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <div class="row">
   <div class="col-12 col-lg-10">
@@ -34,7 +36,7 @@ body_attr: >-
     </section>
     {% endfor %}
 
-    <!-- 页面底部附加说明 / CTA 卡片（不会影响年份分组） -->
+    <!-- 页面底部附加说明 / CTA 卡片 -->
     <div class="alert alert-light border mt-4">
       <p class="mb-2">
         Only first-author and corresponding-author publications are listed here.
@@ -91,12 +93,17 @@ body_attr: >-
   const links = Array.from(nav.querySelectorAll('a'));
   const sections = Array.from(document.querySelectorAll('.year-section'));
 
-  // 统一设置哪个链接是 active
-  function setActiveHref(href){
+  // 当前是否处于“手动滚动中”（点击触发的平滑滚动）
+  let manualScrolling = false;
+  let manualTimer = null;
+
+  // 统一设置哪个链接是 active；当 manualScrolling=true 且非强制时，跳过更新
+  function setActiveHref(href, force = false){
+    if (manualScrolling && !force) return;
     links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === href));
   }
 
-  // 点击：立即高亮 + 平滑滚动（带偏移），并确保靠底也会滚动
+  // 点击：立即高亮 + 平滑滚动（带偏移），滚动期间暂时禁用 Observer 更新，避免“打架”
   links.forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -104,22 +111,35 @@ body_attr: >-
       const target = document.querySelector(href);
       if (!target) return;
 
-      // 立刻高亮所点年份
-      setActiveHref(href);
+      // 立刻高亮所点年份（强制）
+      setActiveHref(href, true);
+
+      // 开始“手动滚动模式”，暂停 Observer 的高亮更新
+      manualScrolling = true;
+      if (manualTimer) clearTimeout(manualTimer);
 
       // 计算滚动目标位置（减去固定头部偏移）
       let top = window.pageYOffset + target.getBoundingClientRect().top - OFFSET;
 
       // 若目标接近页面底部，强制限制到 maxTop-1，确保一定发生滚动
       const maxTop = document.documentElement.scrollHeight - window.innerHeight;
-      top = Math.min(top, maxTop - 1);
+      top = Math.min(top, Math.max(0, maxTop - 1));
 
       window.scrollTo({ top, behavior: 'smooth' });
+
+      // 在动画结束后恢复 Observer 更新（600~700ms 够用，按需求微调）
+      manualTimer = setTimeout(() => {
+        manualScrolling = false;
+      }, 700);
     });
   });
 
   // 滚动时：保持高亮与当前可视年份同步（IntersectionObserver）
   const observer = new IntersectionObserver((entries) => {
+    // 手动滚动时，跳过自动更新，避免抖动
+    if (manualScrolling) return;
+
+    // 取最可见的 section
     const visible = entries
       .filter(e => e.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -136,4 +156,3 @@ body_attr: >-
   sections.forEach(sec => observer.observe(sec));
 })();
 </script>
-
