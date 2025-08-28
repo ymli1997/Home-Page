@@ -21,25 +21,63 @@ body_attr: >-
 {% assign pubs_by_year = site.publications | sort: "date" | reverse | group_by_exp: "item", "item.date | date: '%Y'" %}
 
 <div class="row">
-    <div class="col-12 col-lg-10">
-        {% for year in pubs_by_year %}
-        {% assign num_papers = year.items | size %}
-        <h2 class="pt-4" id="year-{{ year.name }}">{{ year.name }}</h2>
-        <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
-            {% for item in year.items %}
-                {% include widgets/publication_item.html item=item %}
-            {% endfor %}
-        </div>
+  <div class="col-12 col-lg-10">
+    {% for year in pubs_by_year %}
+    <!-- 用 section 包一层，便于设置滚动偏移和最后一节的底部留白 -->
+    <section id="year-{{ year.name }}" class="year-section">
+      <h2 class="pt-4">{{ year.name }}</h2>
+      <div class="my-0 p-0 bg-white shadow-sm rounded-sm">
+        {% for item in year.items %}
+          {% include widgets/publication_item.html item=item %}
         {% endfor %}
-    </div>
+      </div>
+    </section>
+    {% endfor %}
 
-    <div class="col-2 d-none d-lg-block">
-        <div id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
-            {% for year in pubs_by_year %}
-            <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
-            {% endfor %}
-        </div>
+    <!-- 页面底部附加说明 / CTA 卡片（不会影响年份分组） -->
+    <div class="alert alert-light border mt-4">
+      <p class="mb-2">
+        Only first-author and corresponding-author publications are listed here.
+        For a complete and up-to-date list, please visit
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=Fdae-1AAAAAJ" target="_blank">
+          <i class="fas fa-link"></i> Google Scholar
+        </a>.
+      </p>
+      <p class="mb-0">
+        If you'd like a PDF of my full publication list or CV, feel free to
+        <a href="mailto:yameili@email.swu.edu.cn">contact me</a>.
+      </p>
     </div>
+  </div>
 
+  <div class="col-2 d-none d-lg-block">
+    <nav id="navbar-year" class="nav nav-pills flex-column sticky-top" style="top: 80px">
+      {% for year in pubs_by_year %}
+      <a class="nav-link d-block" href="#year-{{ year.name }}">{{ year.name }}</a>
+      {% endfor %}
+    </nav>
+  </div>
 </div>
 
+<style>
+  /* 平滑滚动（浏览器级） */
+  html { scroll-behavior: smooth; }
+
+  /* 固定头部的锚点偏移（根据你的导航高度调整） */
+  :root { --anchor-offset: 120px; }
+
+  /* 让每个年份区块在滚动定位时留出头部空间 */
+  .year-section {
+    scroll-margin-top: var(--anchor-offset);
+  }
+
+  /* ✅ 给最后一个年份区块加足够的底部空间，避免“贴底点不动” */
+  .year-section:last-of-type {
+    padding-bottom: 40vh;
+  }
+
+  /* 侧边年份的激活态更明显（Bootstrap 的 .active 会生效，这里加粗） */
+  #navbar-year .nav-link.active {
+    font-weight: 700;
+  }
+</style>
