@@ -1,41 +1,56 @@
+{%- comment -%}
+Usage:
+  authors:
+    - Alice #
+    - Bob †
+    - Yamei Li #
+Markers:
+  #  -> co-first author
+  †  -> corresponding author
+Bold:
+  - 自动加粗 site.data.profile.primary_name（若无则默认 "Yamei Li"）
+  - 若 site.data.authors[NAME].bold == true 也会加粗
+Link:
+  - 若 site.data.authors[NAME].url 存在，则给该作者名加链接
+{%- endcomment -%}
+
 {%- assign authors = include.authors -%}
-{%- assign has_eq_contrib = false -%}
-{%- assign i = 0 -%}
-{%- for _key in authors -%}
-    {%- assign last_char = _key | slice: -1, 1%}
-    {%- if last_char == "†" -%}
-        {%- assign key = _key | split: "†" | first -%}
-        {%- assign mark = "†" -%}
-        {%- assign has_eq_contrib = true -%}
-    {%- else -%}
-        {%- assign key = _key -%}
-        {%- assign mark = "" -%}
-    {%- endif -%}
+{%- assign has_cofirst = false -%}
+{%- assign has_corr = false -%}
+{%- assign me = site.data.profile.primary_name | default: "Yamei Li" -%}
 
-    {%- assign info = site.data.authors[key] -%}
+{%- for raw in authors -%}
+  {%- assign is_cofirst = raw contains "#" -%}
+  {%- assign is_corr = raw contains "†" -%}
+  {%- assign key = raw | replace: "#","" | replace: "†","" | strip -%}
 
-    {%- if info['name'] -%}
-        {%- assign name = info['name'] -%}
-    {%- else -%}
-        {%- assign name = key -%}
-    {%- endif -%}
+  {%- assign info = site.data.authors[key] -%}
+  {%- assign name = info.name | default: key -%}
 
-    {%- if info['bold'] == true -%}
-        {%- assign display_name = name | append: mark | prepend: "<strong style='background-color: #f2f2f2;'>" | append: "</strong><u>" | append: "</u>" -%}
-    {%- else -%}
-        {%- assign display_name = name | append: mark -%}
-    {%- endif -%}
-    
-    {%- if info['url'] -%}
-        <a class="text-body" target="_blank" href="{{ info['url'] }}">{{ display_name }}</a>{%- if forloop.index < authors.size -%}, {% endif -%}
-    {%- else -%}
-        <span class="text-body">
-            {{ display_name }}{%- if forloop.index < authors.size -%}, {% endif -%}
-        </span>
-    {%- endif -%}
+  {%- assign should_bold = false -%}
+  {%- if info.bold == true or name == me -%}
+    {%- assign should_bold = true -%}
+  {%- endif -%}
 
+  {%- capture html_name -%}
+    {%- if should_bold -%}<strong>{{ name }}</strong>{%- else -%}{{ name }}{%- endif -%}
+  {%- endcapture -%}
+
+  {%- if info.url -%}
+    <a class="text-body" target="_blank" href="{{ info.url }}">{{ html_name }}</a>
+  {%- else -%}
+    <span class="text-body">{{ html_name }}</span>
+  {%- endif -%}
+
+  {%- unless forloop.last -%}, {%- endunless -%}
+
+  {%- if is_cofirst -%}{%- assign has_cofirst = true -%}{%- endif -%}
+  {%- if is_corr -%}{%- assign has_corr = true -%}{%- endif -%}
 {%- endfor -%}
 
-{%- if has_eq_contrib == true -%}
-<mark>(† <i> corresponding author</i>)</mark>
+{%- if has_cofirst -%}
+  <span class="badge badge-light ml-1">(＊ co-first author)</span>
+{%- endif -%}
+{%- if has_corr -%}
+  <span class="badge badge-light ml-1">(† corresponding author)</span>
 {%- endif -%}
