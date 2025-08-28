@@ -3,13 +3,9 @@ title:          Hybrid Residual Neural Network for Obstructive Sleep Apnea Detec
 date:           2025-08-01 00:01:00 +0800
 selected:       true
 pub:            "IEEE Transactions on Biomedical Engineering"
-# pub_pre:        "Submitted to "
-# pub_post:       'Under review.'
 pub_last:       ' <span class="badge badge-pill badge-custom badge-secondary">Conference</span>'
 pub_date:       "2025"
 
-# abstract: >-
-#  We introduce MedVideoCap-55K, the first large-scale, diverse, and caption-rich dataset designed for medical video generation. Comprising over 55,000 curated clips from real-world clinical scenarios, it addresses the critical need for both visual fidelity and medical accuracy in applications such as training, education, and simulation.
   
 cover:          assets/images/covers/TBME.jpg
 authors:
@@ -24,8 +20,5 @@ authors:
   - Yuan Zhang †
   - Mang I Vai
 links:
-  Paper: https://www.arxiv.org/abs/2507.05675
-  # Code: https://github.com/FreedomIntelligence/MedGen
-  # Dataset: https://huggingface.co/datasets/FreedomIntelligence/MedVideoCap-55K
-  # Model: https://huggingface.co/FreedomIntelligence/MedGen
+  Paper: [https://www.arxiv.org/abs/2507.05675](https://ieeexplore.ieee.org/document/11120836)
 ---
